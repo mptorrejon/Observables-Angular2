@@ -1,24 +1,22 @@
-import { Component, Inject } from '@angular/core';
-import {enableProdMode} from '@angular/core';
-import { CONFIG } from '../constants/config';
-import {Service} from './myservice.service';
+import {Component} from '@angular/core';
+import {NavService} from './myservice.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-	selector: 'my-app',
-	template: `	<div *ngFor="let item of mydata">
-					{{ item.logo }}
-				</div>`,
-	styleUrls: ['../../assets/styles/css/header.css'],
-	providers: [Service]
-})export class AppComponent{
-	mydata;
-	constructor(myser:Service){
-		myser.getData()
-		.subscribe(data=>{
-			
-			this.mydata = JSON.parse(data._body);
+	selector: 'my-head',
+	template: '<div> {{item2}} </div>'
+})export class Header{
+	item2: number;
+  	subscription:Subscription;
 
-			console.log(this.mydata);
-		});
+	constructor(private _navService:NavService) {}
+
+	ngOnInit(){
+		this.subscription = this._navService.navItem$.subscribe(
+			item => {
+				console.log(item);
+				this.item2 = item;
+			}
+		);
 	}
-};
+}

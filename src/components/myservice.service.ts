@@ -1,21 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/Rx';
-import {Http} from '@angular/http';
+import {Injectable}      from '@angular/core'
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class Service{
-	// data = Observable.interval(1000);
-	mydata;
-	constructor(private http:Http){}
-
-	getData(){
-		return this.http
-		.get('https://autocomplete.clearbit.com/v1/companies/suggest?query=f')
-		// .subscribe(data=>{
-		// 	this.mydata = data;
-		// 	this.mydata = JSON.parse(this.mydata._body);
-		// });
-	}
-
+export class NavService {
+  // Observable navItem source
+  private _navItemSource = new BehaviorSubject<number>(0);
+  // Observable navItem stream
+  navItem$ = this._navItemSource.asObservable();
+  // service command
+  changeNav(number) {
+    this._navItemSource.next(number);
+  }
 }
